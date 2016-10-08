@@ -376,3 +376,18 @@ on boot
     chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* in_quaternion_y_scale
     chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* in_quaternion_z_scale
     chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* in_quaternion_module_scale
+
+on enable-low-power
+
+    # Enable core control
+    write /sys/devices/system/cpu/cpu0/core_ctl/min_cpus 0
+    write /sys/devices/system/cpu/cpu0/core_ctl/max_cpus 3
+    write /sys/devices/system/cpu/cpu0/core_ctl/busy_up_thres 68
+    write /sys/devices/system/cpu/cpu0/core_ctl/busy_down_thres 40
+    write /sys/devices/system/cpu/cpu0/core_ctl/offline_delay_ms 100
+    write /sys/devices/system/cpu/cpu0/core_ctl/task_thres 4
+    write /sys/devices/system/cpu/cpu0/core_ctl/is_big_cluster 1
+    write /sys/devices/system/cpu/cpu4/core_ctl/busy_up_thres 20
+    write /sys/devices/system/cpu/cpu4/core_ctl/busy_down_thres 5
+    write /sys/devices/system/cpu/cpu4/core_ctl/offline_delay_ms 5000
+    write /sys/devices/system/cpu/cpu4/core_ctl/not_preferred 1
