@@ -1,2 +1,5 @@
 # for Settings' access to VibratorHW
 /sys/class/timed_output/vibrator/enable         u:object_r:sysfs_vibrator:s0
+
+# Perfd
+/data/misc/perfd(/.*)?                  u:object_r:mpctl_data_file:s0
