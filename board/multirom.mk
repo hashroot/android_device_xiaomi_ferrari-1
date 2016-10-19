@@ -1,0 +1,13 @@
+# Multirom flags
+TARGET_RECOVERY_IS_MULTIROM := true
+MR_INPUT_TYPE := type_a
+MR_INIT_DEVICES := device/xiaomi/ferrari/multirom/mr_init_devices.c
+DEVICE_RESOLUTION := 1080x1920
+MR_DPI := xhdpi
+MR_DPI_FONT := 340
+MR_FSTAB := device/xiaomi/ferrari/twrp/twrp.fstab
+MR_KEXEC_MEM_MIN := 0x0
+MR_PIXEL_FORMAT := "ABGR_8888"
+MR_DEVICE_HOOKS := device/xiaomi/ferrari/multirom/mr_hooks.c
+MR_DEVICE_HOOKS_VER := 5
+MR_DEVICE_VARIANTS := Mi4i
