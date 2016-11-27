@@ -27,19 +27,12 @@
 #
 #
 
-on post-fs-data
-    chown system system /dev/sysmatdrv
-    chmod 0660 /dev/sysmatdrv
-
 on boot
-    mkdir /persist/bluetooth 0770 bluetooth bluetooth
+    # Torch
+    chown system camera /sys/class/leds/flashlight/brightness
+    chmod 0660 /sys/class/leds/flashlight/brightness
 
-# Vibrator
-    chmod 0660 /dev/tspdrv
-    chown root shell /dev/tspdrv
-    chown system system /sys/class/timed_output/vibrator/enable
-
-    # Notification LED permissions
+    # LEDs
     chown system system /sys/class/leds/red/blink
     chown system system /sys/class/leds/red/risetime
     chown system system /sys/class/leds/red/falltime
@@ -50,6 +43,329 @@ on boot
     chown system system /sys/class/leds/blue/risetime
     chown system system /sys/class/leds/blue/falltime
 
+    # Reset LEDs brightness
+    write /sys/class/leds/red/brightness 0
+    write /sys/class/leds/green/brightness 0
+    write /sys/class/leds/blue/brightness 0
+
+    # charger
+    chown system system /sys/class/power_supply/battery/capacity
+    chmod 0660 /sys/class/power_supply/battery/capacity
+    chown root /sys/class/power_supply/battery/current_now
+    chown root /sys/class/power_supply/battery/voltage_now
+    chmod 0664 /sys/class/power_supply/battery/current_now
+    chmod 0664 /sys/class/power_supply/battery/voltage_now
+
+    # Accelerometer
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* buffer/enable
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* buffer/length
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* sampling_frequency
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* batch_mode
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* batch_mode_timeout
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* scan_elements/in_accel_x_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* scan_elements/in_accel_y_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* scan_elements/in_accel_z_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* scan_elements/in_timestamp_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* in_accel_x_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* in_accel_y_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* in_accel_z_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* buffer/enable
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* buffer/length
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* sampling_frequency
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* batch_mode
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* batch_mode_timeout
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* scan_elements/in_accel_x_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* scan_elements/in_accel_y_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* scan_elements/in_accel_z_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* scan_elements/in_timestamp_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* in_accel_x_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* in_accel_y_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_accel* /iio:device* in_accel_z_scale
+
+    # Magnetometer
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* buffer/enable
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* buffer/length
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* sampling_frequency
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* batch_mode
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* batch_mode_timeout
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* scan_elements/in_magn_x_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* scan_elements/in_magn_y_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* scan_elements/in_magn_z_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* scan_elements/in_magn_accuracy_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* scan_elements/in_timestamp_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* in_magn_x_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* in_magn_y_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* in_magn_z_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* force_magn_calibration
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* buffer/enable
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* buffer/length
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* sampling_frequency
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* batch_mode
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* batch_mode_timeout
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* scan_elements/in_magn_x_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* scan_elements/in_magn_y_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* scan_elements/in_magn_z_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* scan_elements/in_magn_accuracy_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* scan_elements/in_timestamp_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* in_magn_x_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* in_magn_y_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* in_magn_z_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_magn* /iio:device* force_magn_calibration
+
+    # Gyroscope
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* buffer/enable
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* buffer/length
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* sampling_frequency
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* batch_mode
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* batch_mode_timeout
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* scan_elements/in_anglvel_x_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* scan_elements/in_anglvel_y_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* scan_elements/in_anglvel_z_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* scan_elements/in_timestamp_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* in_anglvel_x_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* in_anglvel_y_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* in_anglvel_z_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* buffer/enable
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* buffer/length
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* sampling_frequency
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* batch_mode
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* batch_mode_timeout
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* scan_elements/in_anglvel_x_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* scan_elements/in_anglvel_y_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* scan_elements/in_anglvel_z_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* scan_elements/in_timestamp_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* in_anglvel_x_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* in_anglvel_y_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gyro* /iio:device* in_anglvel_z_scale
+
+    # Significant motion
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_sign_motion.0/iio:device* buffer/enable
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_sign_motion.0/iio:device* buffer/length
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_sign_motion.0/iio:device* scan_elements/in_sign_motion_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_sign_motion.0/iio:device* scan_elements/in_timestamp_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_sign_motion.0/iio:device* buffer/enable
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_sign_motion.0/iio:device* buffer/length
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_sign_motion.0/iio:device* scan_elements/in_sign_motion_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_sign_motion.0/iio:device* scan_elements/in_timestamp_en
+
+    # Quaternion
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* buffer/enable
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* buffer/length
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* sampling_frequency
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* batch_mode
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* batch_mode_timeout
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* scan_elements/in_quaternion_x_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* scan_elements/in_quaternion_y_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* scan_elements/in_quaternion_z_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* scan_elements/in_quaternion_module_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* scan_elements/in_quaternion_accuracy_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* scan_elements/in_timestamp_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* in_quaternion_x_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* in_quaternion_y_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* in_quaternion_z_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* in_quaternion_module_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* buffer/enable
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* buffer/length
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* sampling_frequency
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* batch_mode
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* batch_mode_timeout
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* scan_elements/in_quaternion_x_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* scan_elements/in_quaternion_y_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* scan_elements/in_quaternion_z_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* scan_elements/in_quaternion_module_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* scan_elements/in_quaternion_accuracy_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* scan_elements/in_timestamp_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* in_quaternion_x_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* in_quaternion_y_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* in_quaternion_z_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_quat* /iio:device* in_quaternion_module_scale
+
+    # Step detector
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_d* /iio:device* buffer/enable
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_d* /iio:device* buffer/length
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_d* /iio:device* batch_mode
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_d* /iio:device* batch_mode_timeout
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_d* /iio:device* scan_elements/in_step_detector_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_d* /iio:device* scan_elements/in_timestamp_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_d*  /iio:device* buffer/enable
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_d*  /iio:device* buffer/length
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_d*  /iio:device* batch_mode
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_d*  /iio:device* batch_mode_timeout
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_d*  /iio:device* scan_elements/in_step_detector_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_d*  /iio:device* scan_elements/in_timestamp_en
+
+
+    # Euler angles
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* buffer/enable
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* buffer/length
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* sampling_frequency
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* batch_mode
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* batch_mode_timeout
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* scan_elements/in_euler_x_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* scan_elements/in_euler_y_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* scan_elements/in_euler_z_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* scan_elements/in_euler_accuracy_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* scan_elements/in_timestamp_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* in_euler_x_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* in_euler_y_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* in_euler_z_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* buffer/enable
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* buffer/length
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* sampling_frequency
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* batch_mode
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* batch_mode_timeout
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* scan_elements/in_euler_x_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* scan_elements/in_euler_y_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* scan_elements/in_euler_z_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* scan_elements/in_euler_accuracy_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* scan_elements/in_timestamp_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* in_euler_x_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* in_euler_y_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_euler* /iio:device* in_euler_z_scale
+
+    # Step counter
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  buffer/enable
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  buffer/length
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  sampling_frequency
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  batch_mode
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  batch_mode_timeout
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  scan_elements/in_step_counter_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  scan_elements/in_step_counter_module_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  scan_elements/in_timestamp_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  max_delivery_rate
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  buffer/enable
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  buffer/length
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  sampling_frequency
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  batch_mode
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  batch_mode_timeout
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  scan_elements/in_step_counter_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  scan_elements/in_step_counter_module_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  scan_elements/in_timestamp_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_step_c*  max_delivery_rate
+
+    #  Game quaternion
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* buffer/enable
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* buffer/length
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* sampling_frequency
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* batch_mode
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* batch_mode_timeout
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* scan_elements/in_quaternion_x_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* scan_elements/in_quaternion_y_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* scan_elements/in_quaternion_z_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* scan_elements/in_quaternion_module_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* scan_elements/in_quaternion_accuracy_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* scan_elements/in_timestamp_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* in_quaternion_x_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* in_quaternion_y_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* in_quaternion_z_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* in_quaternion_module_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* buffer/enable
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* buffer/length
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* sampling_frequency
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* batch_mode
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* batch_mode_timeout
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* scan_elements/in_quaternion_x_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* scan_elements/in_quaternion_y_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* scan_elements/in_quaternion_z_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* scan_elements/in_quaternion_module_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* scan_elements/in_quaternion_accuracy_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* scan_elements/in_timestamp_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* in_quaternion_x_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* in_quaternion_y_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* in_quaternion_z_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_game_quat* /iio:device* in_quaternion_module_scale
+
+    # linear acceleration
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* buffer/enable
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* buffer/length
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* sampling_frequency
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* batch_mode
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* batch_mode_timeout
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* scan_elements/in_linear_accel_x_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* scan_elements/in_linear_accel_y_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* scan_elements/in_linear_accel_z_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* scan_elements/in_timestamp_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* in_linear_accel_x_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* in_linear_accel_y_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* in_linear_accel_z_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* buffer/enable
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* buffer/length
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* sampling_frequency
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* batch_mode
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* batch_mode_timeout
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* scan_elements/in_linear_accel_x_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* scan_elements/in_linear_accel_y_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* scan_elements/in_linear_accel_z_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* scan_elements/in_timestamp_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* in_linear_accel_x_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* in_linear_accel_y_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_linear* /iio:device* in_linear_accel_z_scale
+
+    # gravity
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* buffer/enable
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* buffer/length
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* sampling_frequency
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* batch_mode
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* batch_mode_timeout
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* scan_elements/in_gravity_x_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* scan_elements/in_gravity_y_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* scan_elements/in_gravity_z_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* scan_elements/in_timestamp_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* in_gravity_x_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* in_gravity_y_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* in_gravity_z_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* buffer/enable
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* buffer/length
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* sampling_frequency
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* batch_mode
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* batch_mode_timeout
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* scan_elements/in_gravity_x_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* scan_elements/in_gravity_y_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* scan_elements/in_gravity_z_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* scan_elements/in_timestamp_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* in_gravity_x_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* in_gravity_y_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_gravity* /iio:device* in_gravity_z_scale
+
+    # geomag quaternion
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* buffer/enable
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* buffer/length
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* sampling_frequency
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* batch_mode
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* batch_mode_timeout
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* scan_elements/in_quaternion_x_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* scan_elements/in_quaternion_y_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* scan_elements/in_quaternion_z_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* scan_elements/in_quaternion_module_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* scan_elements/in_quaternion_accuracy_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* scan_elements/in_timestamp_en
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* in_quaternion_x_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* in_quaternion_y_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* in_quaternion_z_scale
+    chown system system /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* in_quaternion_module_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* buffer/enable
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* buffer/length
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* sampling_frequency
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* batch_mode
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* batch_mode_timeout
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* scan_elements/in_quaternion_x_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* scan_elements/in_quaternion_y_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* scan_elements/in_quaternion_z_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* scan_elements/in_quaternion_module_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* scan_elements/in_quaternion_accuracy_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* scan_elements/in_timestamp_en
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* in_quaternion_x_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* in_quaternion_y_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* in_quaternion_z_scale
+    chmod 0660 /sys/devices/soc.0/78b6000.i2c/i2c-0/0-0008/lsm6db0_geo_quat* /iio:device* in_quaternion_module_scale
+
+    # Vibrator
+    chmod 0660 /dev/tspdrv
+    chown root shell /dev/tspdrv
+    chown system system /sys/class/timed_output/vibrator/enable
+    chown system system /dev/sysmatdrv
+    chmod 0660 /dev/sysmatdrv
+
     ## cmhw permissions
     # key disabler
     chown system system /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/disable_keys
@@ -57,6 +373,7 @@ on boot
     # doubletap to wake
     chown system system /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/wakeup_mode
     chmod 0660 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-004a/wakeup_mode
+
 
     # Configure UKSM
     chown root system /sys/kernel/mm/uksm/sleep_millisecs
