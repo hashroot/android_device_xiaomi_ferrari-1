@@ -4,3 +4,6 @@ PRODUCT_PACKAGES += \
     init.qcom.fm.sh \
     init.qcom.sh \
     init.target.rc
+
+PRODUCT_COPY_FILES += \
+   device/xiaomi/ferrari/rootdir/etc/ueventd.qcom.rc:root/ueventd.qcom.rc
