@@ -129,7 +129,7 @@ static int get_global_handle(FullHandle* full_handle) {
     return global_handle;
 }
 
-static const int SENSOR_EVENT_QUEUE_CAPACITY = 36;
+static const int SENSOR_EVENT_QUEUE_CAPACITY = 20;
 
 struct TaskContext {
   sensors_poll_device_t* device;
@@ -228,7 +228,7 @@ void sensors_poll_context_t::addSubHwDevice(struct hw_device_t* sub_hw_device) {
 // Returns the device pointer, or NULL if the global handle is invalid.
 sensors_poll_device_t* sensors_poll_context_t::get_v0_device_by_handle(int global_handle) {
     int sub_index = get_module_index(global_handle);
-    if (sub_index < 0 || sub_index >= (int) this->sub_hw_devices.size()) {
+    if (sub_index < 0 || sub_index >= this->sub_hw_devices.size()) {
         return NULL;
     }
     return (sensors_poll_device_t*) this->sub_hw_devices[sub_index];
@@ -237,7 +237,7 @@ sensors_poll_device_t* sensors_poll_context_t::get_v0_device_by_handle(int globa
 // Returns the device pointer, or NULL if the global handle is invalid.
 sensors_poll_device_1_t* sensors_poll_context_t::get_v1_device_by_handle(int global_handle) {
     int sub_index = get_module_index(global_handle);
-    if (sub_index < 0 || sub_index >= (int) this->sub_hw_devices.size()) {
+    if (sub_index < 0 || sub_index >= this->sub_hw_devices.size()) {
         return NULL;
     }
     return (sensors_poll_device_1_t*) this->sub_hw_devices[sub_index];
@@ -583,6 +583,11 @@ static void lazy_init_sensors_list() {
             ALOGV("module_index %d, local_handle %d, global_handle %d",
                     module_index, local_handle, global_handle);
 
+            if (mutable_sensor_list[mutable_sensor_index].type == SENSOR_TYPE_PROXIMITY) {
+                ALOGV("override proximity range");
+                mutable_sensor_list[mutable_sensor_index].maxRange = 5.0;
+            }
+
             mutable_sensor_index++;
         }
         module_index++;
@@ -607,22 +612,22 @@ static int module__get_sensors_list(__unused struct sensors_module_t* module,
 }
 
 static struct hw_module_methods_t sensors_module_methods = {
-    .open = open_sensors
+    open : open_sensors
 };
 
 struct sensors_module_t HAL_MODULE_INFO_SYM = {
-    .common = {
-        .tag = HARDWARE_MODULE_TAG,
-        .version_major = 1,
-        .version_minor = 0,
-        .id = SENSORS_HARDWARE_MODULE_ID,
-        .name = "MultiHal Sensor Module",
-        .author = "Google, Inc",
-        .methods = &sensors_module_methods,
-        .dso = NULL,
-        .reserved = {0},
+    common :{
+        tag : HARDWARE_MODULE_TAG,
+        version_major : 1,
+        version_minor : 0,
+        id : SENSORS_HARDWARE_MODULE_ID,
+        name : "MultiHal Sensor Module",
+        author : "Google, Inc",
+        methods : &sensors_module_methods,
+        dso : NULL,
+        reserved : {0},
     },
-    .get_sensors_list = module__get_sensors_list
+    get_sensors_list : module__get_sensors_list
 };
 
 static int open_sensors(const struct hw_module_t* hw_module, const char* name,
