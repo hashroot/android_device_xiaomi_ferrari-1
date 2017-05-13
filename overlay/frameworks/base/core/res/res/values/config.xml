@@ -193,8 +193,8 @@
     <bool name="config_multiColorBatteryLed">true</bool>-->
 
     <!-- Do the battery/notification LEDs support pulsing?
-         Used to decide if we show pulse settings -->
-    <bool name="config_ledCanPulse">true</bool>
+         Used to decide if we show pulse settings >
+    <bool name="config_ledCanPulse">true</bool-->
 
     <!-- Is the device capable of hot swapping an UICC Card -->
     <bool name="config_hotswapCapable">true</bool>
